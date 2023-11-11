@@ -1,4 +1,7 @@
 import {initializeApp, getApps} from "firebase/app";
+
+const  appName ="nba4all";
+
 const firebaseConfig={
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
@@ -9,6 +12,6 @@ const firebaseConfig={
     measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
 };
 
-let firebase_app= getApps().length === 0? initializeApp(firebaseConfig): getApps()[0];
+let firebase_app= getApps().length === 0? initializeApp(firebaseConfig, appName): getApps()[1];
 
 export default firebase_app;
