@@ -1,17 +1,20 @@
-import {initializeApp, getApps} from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import {initializeApp} from "firebase/app";
 
-const  appName ="nba4all";
+const  appName ="NBA4ALL";
 
 const firebaseConfig={
-    apiKey: process.env.NEXT_PUBLIC_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
-    projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-    storageBucket:process.env.NEXT_PUBLIC_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_APP_ID,
-    measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
+    apiKey: "AIzaSyCXcbQT1KDDC9c7Z7G5c41vC62STpgfEas",
+    authDomain: "websites-3c750.firebaseapp.com",
+    databaseURL: "https://websites-3c750-default-rtdb.firebaseio.com",
+    projectId: "websites-3c750",
+    storageBucket: "websites-3c750.appspot.com",
+    messagingSenderId: "453377291811",
+    appId: "1:453377291811:web:80689bcf6bf57ffbe0a396",
+    measurementId: "G-S623S4WB29"
 };
 
-let firebase_app= getApps().length === 0? initializeApp(firebaseConfig, appName): getApps()[1];
+let firebase_app= initializeApp(firebaseConfig, appName);
+getAnalytics(firebase_app);
 
 export default firebase_app;
