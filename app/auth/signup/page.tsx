@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import signup from "@/firebase/signup";
+import signup from "@/app/api/firebase/signup";
 import { FcGoogle } from "react-icons/fc";
 import { GrGithub } from "react-icons/gr";
 import { RiTwitterXFill } from "react-icons/ri";
@@ -21,6 +21,7 @@ function Page() {
 
   const handleForm = async (e: any) => {
     e.preventDefault();
+    const emailRegex = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
 
     setIsLoading(!isLoading);
     //validation
@@ -28,6 +29,8 @@ function Page() {
       return console.log("password is required");
     } else if (password != repeatPassword) {
       return console.log("password doesn't match");
+    }else if(!email.match(emailRegex)) {
+      return console.log("Wrong email address");
     }
     const { result, error } = await signup(email, password);
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import signin from "@/firebase/signin";
+import signin from "@/app/api/firebase/signin";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";

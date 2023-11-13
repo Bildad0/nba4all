@@ -2,7 +2,7 @@
 
 import "./globals.css";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
-import firebase_app from "@/firebase/config";
+import firebase_app from "@/app/api/firebase/config";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useContext, createContext } from "react";
@@ -54,7 +54,7 @@ export default function RootLayout({
           content="NBA, Lebron James, cobe, NBA africa"
         />
       </head>
-      <body className="min-h-screen">
+      <body className="min-h-screen overscroll-contain">
         <AuthContext.Provider value={{ userToken }}>
           {loading ? (
            <Loader />

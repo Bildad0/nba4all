@@ -4,6 +4,7 @@ import { useAuthContext } from "./layout";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Header from "./components/header";
+import Footer from "./components/footer";
 
 export default function Home() {
   const { ...user } = useAuthContext();
@@ -14,8 +15,10 @@ export default function Home() {
   }, [router, user]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Header />
-    </main>
+    <div className="min-h-screen">
+      <Header  />
+      <main className="flex  flex-col items-center justify-between p-24"></main>
+      <Footer />
+    </div>
   );
-}
+} 
