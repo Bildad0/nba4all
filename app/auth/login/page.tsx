@@ -74,7 +74,7 @@ function Page() {
               </label>
               <div className="card-actions justify-center">
                 {loading ? (
-                <Loader/>
+                  <span className="loading loading-spinner loading-md"></span>
                 ) : (
                   <button type="submit" className="btn btn-outline hover:bg-white hover:text-black">
                     Login

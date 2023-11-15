@@ -27,7 +27,7 @@ const Header = () => {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>Home</a>
+              <a>Tournaments</a>
             </li>
             <li>
               <a>Games</a>
@@ -53,7 +53,7 @@ const Header = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a>Home</a>
+            <a>Tournaments</a>
           </li>
           <li tabIndex={0}>
             <details>
@@ -77,8 +77,9 @@ const Header = () => {
         </ul>
       </div>
       <div className="navbar-end">
+        <div className="flex flex-row justify-between">
         <Avator />
-
+        </div>
         {/* if user icon url is available then use this avator */}
         {/* <div className="avatar">
           <div className="w-8 rounded-full">

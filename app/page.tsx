@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Header from "./components/header";
 import Footer from "./components/footer";
+import Card from "./components/fixture_card";
 
 export default function Home() {
   const { ...user } = useAuthContext();
@@ -17,7 +18,10 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <Header  />
-      <main className="flex  flex-col items-center justify-between p-24"></main>
+      <main className="flex  flex-col items-center justify-between p-24">
+
+        <Card />
+      </main>
       <Footer />
     </div>
   );
