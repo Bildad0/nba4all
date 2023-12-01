@@ -36,16 +36,7 @@ function Page() {
   return (
     <div className="container bg-black">
       <div className="px-12 py-6 flex justify-center">
-        <div className="card card-side bg-base-100 shadow-xl w-fit h-fit">
-       
-            <Image
-              src="/images/cobe.jpg"
-              className="hidden rounded-box w-full  sm:hidden md:flex lg:flex xl:flex xxl:flex sm:w-full  md:w-10/12 lg:w-10/12 xl:w-10/12 xxl:w-10/12"
-              height={200}
-              width={300}
-              alt=""
-            />
-         
+        <div className="card card-side bg-base-100 shadow-xl w-fit h-fit">         
           <div className="card-body h-fit w-10/12 justify-center py-4">
             <h2 className="card-title">Sign In</h2>
             <form onSubmit={handleSubmit} className="flex justify-around flex-col gap-3">

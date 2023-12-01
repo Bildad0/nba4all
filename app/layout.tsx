@@ -6,9 +6,8 @@ import firebase_app from "@/app/api/firebase/config";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useContext, createContext } from "react";
-import Header from "./components/header";
-import Footer from "./components/footer";
 import Loader from "./components/loading";
+import { getUserByEmail } from "./api/api";
 
 const auth = getAuth(firebase_app);
 
@@ -21,7 +20,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [userToken, setUserToken] = useState({});
+  const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -29,8 +28,12 @@ export default function RootLayout({
     setTimeout(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
-          setUserToken(user.getIdTokenResult());
-          localStorage.setItem("currentUser", user.toJSON().toString());
+          setUser(user);
+          getUserByEmail(user.email || "bildadowuor@gmail.com").then(
+            (response) => {
+              localStorage.setItem("user", JSON.stringify(response.data));
+            }
+          );
         } else {
           router.push("/auth/signup");
         }
@@ -49,18 +52,11 @@ export default function RootLayout({
           name="description"
           content="NBA all stars statistics and game records."
         />
-        <meta
-          name="keywords"
-          content="NBA, Lebron James, cobe, NBA africa"
-        />
+        <meta name="keywords" content="NBA, Lebron James, cobe, NBA africa" />
       </head>
       <body className="min-h-screen overscroll-contain">
-        <AuthContext.Provider value={{ userToken }}>
-          {loading ? (
-           <Loader />
-          ) : (
-            children
-          )}
+        <AuthContext.Provider value={{ user }}>
+          {loading ? <Loader /> : children}
         </AuthContext.Provider>
       </body>
     </html>
