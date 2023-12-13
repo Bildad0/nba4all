@@ -5,7 +5,7 @@ interface User {
   lname: string;
   email: string;
   userName: string;
-  taskIds: [];
 }
 
 export default User;
+

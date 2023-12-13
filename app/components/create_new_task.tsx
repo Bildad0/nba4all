@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { createNewTask } from "../api/api";
 import Task from "../models/task.model";
+import { FcApprove } from "react-icons/fc";
 
 const CreateTaskForm = () => {
   const [title, setTitle] = useState("");
@@ -17,23 +18,51 @@ const CreateTaskForm = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
+    const user = JSON.parse(localStorage.getItem("user") || "");
+    if (user == null) {
+      return;
+    }
     setTimeout(() => {
       const task = {
         task_name: title,
-        task_details: description,
+        task_detail: description,
         date: date || `${initialDate}`,
         published: false,
+        user_id: user.id,
       };
-      createNewTask(task).then((response) => console.log(response));
+      createNewTask(task);
+    }, 200);
+    setLoading(false);
+  };
+
+  const handlePublish = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+    const user = JSON.parse(localStorage.getItem("user") || "");
+    if (user == null) {
+      return;
+    }
+    setTimeout(() => {
+      const task = {
+        task_name: title,
+        task_detail: description,
+        date: date || `${initialDate}`,
+        published: true,
+        user_id: user.id,
+      };
+      createNewTask(task);
     }, 200);
     setLoading(false);
   };
 
   return (
-    <div className="rounded-lg bg-orange-400 px-10 py-2 shadow-2xl">
-      <h1 className="text-center text-3xl font-bold first-letter:font-extrabold ">
-        Create a new task
-      </h1>
+    <div className="rounded-lg bg-orange-400 px-6 py-2 shadow-2xl">
+      <p className="text-3xl text-white">
+        Create new Task{" "}
+        <span>
+          <FcApprove className="text-blue" />
+        </span>
+      </p>
       <form onSubmit={handleSubmit} className="flex  flex-col gap-3">
         <label htmlFor="title">
           <p>Title</p>
@@ -79,12 +108,20 @@ const CreateTaskForm = () => {
               {<span className="loading loading-spinner loading-md"></span>}
             </button>
           ) : (
-            <button
-              type="submit"
-              className="btn btn-outline hover:bg-white hover:text-black"
-            >
-              create
-            </button>
+            <div className="flex flex-row gap-3">
+              <button
+                type="submit"
+                className="btn btn-outline hover:bg-white hover:text-black"
+              >
+                Save
+              </button>
+              <button
+                onClick={handlePublish}
+                className="btn btn-outline hover:bg-white hover:text-black"
+              >
+                Publish
+              </button>
+            </div>
           )}
         </div>
       </form>

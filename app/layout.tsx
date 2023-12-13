@@ -29,9 +29,10 @@ export default function RootLayout({
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           setUser(user);
-          getUserByEmail(user.email || "bildadowuor@gmail.com").then(
+          getUserByEmail(user.email || "ireen@gmail.com").then(
             (response) => {
-              localStorage.setItem("user", JSON.stringify(response.data));
+              console.log("user response: ", response.data[0]);
+              localStorage.setItem("user", JSON.stringify(response.data[0]));
             }
           );
         } else {

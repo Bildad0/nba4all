@@ -5,8 +5,7 @@ const port = 8080;
 const url = "http://localhost:" + port;
 
 const headers = {
-  origin: "*",
-  Accept: "application/json",
+  "Content-Type": "application/json",
 };
 
 const getOptions = {
@@ -43,7 +42,7 @@ export const updateUser = async (user: User) => {
 export const getUserByEmail = async (email: string) => {
   try {
     const result = await fetch(
-      `${url}/api/user/?` + new URLSearchParams({ email }),
+      `${url}/api/user/email/?` + new URLSearchParams({ email }),
       getOptions
     );
     if (result.status === 200) return result.json();
@@ -67,13 +66,28 @@ export const createNewTask = async (task: Task) => {
   }
 };
 
-export const fetchAllTasks = async () => {
+export const fetchAllTasks = async (id: any) => {
   try {
-    const data = await fetch(`${url}/api/task`, getOptions);
-    const response = data.json();
-    return response;
+    const data = await fetch(
+      `${url}/api/tasks/?` + new URLSearchParams({ id }),
+      getOptions
+    );
+    if (data.status === 200) return data.json();
   } catch (e) {
     console.error(e);
+  }
+};
+
+export const userProfile = async (id: any) => {
+  try {
+    const data = await fetch(
+      `${url}/api/user/?` + new URLSearchParams({ id }),
+      getOptions
+    );
+    if (data.status === 200) return data.json();
+  } catch (e) {
+    console.log(e);
+    return null;
   }
 };
 
@@ -83,8 +97,7 @@ export const fetchTaskById = async (id: any) => {
       `${url}/api/task/one/?` + new URLSearchParams({ id }),
       getOptions
     );
-    const response = await data.json();
-    return response;
+    if (data.status == 200) return data.json();
   } catch (e) {
     console.log(e);
     return e;
@@ -94,8 +107,7 @@ export const fetchTaskById = async (id: any) => {
 export const updateTask = async (task: Task) => {
   try {
     await fetch(
-      `${url}/api/task/update?` +
-        new URLSearchParams({ id: task.id?.toString() || "" }),
+      `${url}/api/task/update?` + new URLSearchParams(JSON.stringify(task.id)),
       {
         method: "PUT",
         headers: headers,

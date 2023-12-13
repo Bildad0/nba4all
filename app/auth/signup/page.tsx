@@ -43,8 +43,11 @@ function Page() {
     console.log("Firebase result:", result);
 
     setIsLoading(false);
+    result;
+    localStorage.setItem("",JSON.stringify(result));
     //return to home page
-    return router.push("/");
+    router.push("/");
+    return;
   };
 
   return (

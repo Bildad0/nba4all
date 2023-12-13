@@ -5,6 +5,7 @@ import { FcApprove } from "react-icons/fc";
 import { useRouter } from "next/navigation";
 import CreateTaskForm from "./create_new_task";
 import Task from "../models/task.model";
+import { env } from "node:process";
 
 //will name it as TasksCard
 const TaskCard = () => {
@@ -13,8 +14,12 @@ const TaskCard = () => {
   const route = useRouter();
 
   useEffect(() => {
-    fetchAllTasks().then((res) => {
-      setTasks(res);
+    const user = JSON.parse(localStorage.getItem("user") || "");
+    if (user == null) {
+      return;
+    }
+    fetchAllTasks(user.id).then((res) => {
+      setTasks(res.data);
     });
   });
 
@@ -29,20 +34,19 @@ const TaskCard = () => {
     updateTask({
       id: task.id,
       task_name: task.task_name,
-      task_details: task.task_details,
+      task_detail: task.task_detail,
       date: task.date,
       published: true,
+      user_id:task.user_id
     })
       .then((res) => console.log(res))
       .finally(() => setLoading(false));
   };
   return (
     <div className="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row gap-5 text-center justify-center">
-      {tasks[0] == null ? (
+      {tasks.length == 0 ? (
         <div className="text-center">
           <div className="justify-center flex flex-row">
-            <FcApprove className="text-blue" />
-            <p className="text-3xl text-white">Create new Task</p>
             <CreateTaskForm />
           </div>
         </div>
@@ -55,7 +59,7 @@ const TaskCard = () => {
                   {task.id} {task.task_name}
                 </h2>
                 <p className="text-start first-letter:text-3xl first-letter:font-semibold">
-                  {task.task_details}
+                  {task.task_detail}
                 </p>
 
                 <div className=" py-10 justify-start text-start">
@@ -78,7 +82,9 @@ const TaskCard = () => {
                         View
                       </button>
                       {loading == true ? (
-                        <button className="btn btn-primary disabled">Loading...</button>
+                        <button className="btn btn-primary disabled">
+                          Loading...
+                        </button>
                       ) : (
                         <button
                           className="btn btn-primary"

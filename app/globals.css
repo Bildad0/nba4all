@@ -18,10 +18,28 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+}
+
+.tasks h1{
+font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+letter-spacing: 1rem ;
+}
+.tasks li, .myButton{
+  border: 1px solid white !important;
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+
+.myButton:hover{
+  background-color: aliceblue;
+}
+
+.tasks h2{
+  font-size: large;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+}
+
+.tasks h3{
+  font-weight: bold;
 }
