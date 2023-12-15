@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div>
+    <div className="high-elevation">
       <footer className="footer py-10 bg-base-200 text-base-content px-20">
         <nav>
           <header className="footer-title">Services</header>
@@ -34,6 +34,14 @@ const Footer = () => {
             </div>
           </fieldset>
         </form>
+        <nav>
+          <header className="footer-title">Links</header>
+          <a className="link link-hover" href="/">Home</a>
+          <a className="link link-hover" href="/profile">Profile</a>
+          <a className="link link-hover" href="">Your Subscription</a>
+          <a className="link link-hover" href="">Q & A</a>
+        </nav>
+
       </footer>
       <aside className="footer footer-center p-4 bg-base-300 text-base-content">
         <p>Copyright © 2023 - All right reserved by NBA4ALL</p>

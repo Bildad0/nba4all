@@ -7,7 +7,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useContext, createContext } from "react";
 import Loader from "./components/loading";
-import { getUserByEmail } from "./api/api";
+import { getUserByEmail, userProfile } from "./api/api";
 
 const auth = getAuth(firebase_app);
 
@@ -20,7 +20,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState({});
+  const [userToken, setUserToken] = useState({});
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -28,13 +28,25 @@ export default function RootLayout({
     setTimeout(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
-          setUser(user);
-          getUserByEmail(user.email || "ireen@gmail.com").then(
-            (response) => {
-              console.log("user response: ", response.data[0]);
-              localStorage.setItem("user", JSON.stringify(response.data[0]));
-            }
-          );
+          setUserToken(user.getIdTokenResult);
+          getUserByEmail(user.email || "ireen@gmail.com")
+            .then((response) => {
+              console.log("user: ", response.data[0]);
+              window.localStorage.setItem(
+                "user",
+                JSON.stringify(response.data[0])
+              );
+            })
+            .finally(async () => {
+              const currentUser = JSON.parse(
+                window.localStorage.getItem("user") || ""
+              );
+              const profile = await userProfile(currentUser.id);
+              window.localStorage.setItem(
+                "userProfile",
+                JSON.stringify(profile.data)
+              );
+            });
         } else {
           router.push("/auth/signup");
         }
@@ -56,7 +68,7 @@ export default function RootLayout({
         <meta name="keywords" content="NBA, Lebron James, cobe, NBA africa" />
       </head>
       <body className="min-h-screen overscroll-contain">
-        <AuthContext.Provider value={{ user }}>
+        <AuthContext.Provider value={userToken}>
           {loading ? <Loader /> : children}
         </AuthContext.Provider>
       </body>

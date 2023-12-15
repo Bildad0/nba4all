@@ -1,28 +1,29 @@
 "use client";
-
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { userProfile } from "../api/api";
-import { useRouter } from "next/navigation";
+import { ProfileIcon } from "./profile_drawer";
+
+export const Greetings = () => {
+  const today = new Date();
+  const time = today.getHours();
+  if (time < 12) {
+    return "Good Morning";
+  } else if (time >= 12 && time < 14) {
+    return "Good Afternoon";
+  } else if (time >= 14 && time < 19) {
+    return "Good Evening";
+  } else return "Good Night";
+};
 
 const Header = () => {
   const [user, setUser] = useState({});
-  const router = useRouter();
 
   useEffect(() => {
     const currentUser = JSON.parse(localStorage.getItem("user") || "");
     setUser(currentUser);
   }, []);
 
-  const handleProfileClick = async () => {
-    const profile = await userProfile(user.id);
-    router.push("/profile");
-    localStorage.setItem("userProfile", JSON.stringify(profile.data));
-    console.log("user profile: ", profile.data[0]);
-  };
-
   return (
-    <div className="navbar bg-base-100 sticky top-0 shadow-2xl z-50">
+    <div className="navbar bg-base-200 shadow-2xl z-50 high-elevation min-w-[100%] sticky top-0 min-h-[20%]">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -47,6 +48,9 @@ const Header = () => {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
+              <a href="/">Home</a>
+            </li>
+            <li>
               <a href="/tasks/new">New Task</a>
             </li>
             <li>
@@ -60,30 +64,13 @@ const Header = () => {
         {user == null ? (
           <a className="btn btn-ghost text-xl">Task Manager</a>
         ) : (
-          <a className="btn btn-ghost text-xl" onClick={handleProfileClick}>
-            Hello, {user?.username}
+          <a className="btn btn-ghost text-xl">
+            <Greetings />, {user?.fname} {user?.lname}
           </a>
         )}
       </div>
       <div className="navbar-end">
-        {user.profileUrl == null ? (
-          <div className="flex flex-row justify-between">
-            <div className="avatar placeholder">
-              <button
-                className="bg-neutral text-neutral-content rounded-full w-8"
-                onClick={handleProfileClick}
-              >
-                <span className="text-xs">{user.fname}</span>
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="avatar" onClick={handleProfileClick}>
-            <div className="w-8 rounded-full">
-              <Image src={user.profileUrl} alt="icon" />
-            </div>
-          </div>
-        )}
+        <ProfileIcon />
       </div>
     </div>
   );

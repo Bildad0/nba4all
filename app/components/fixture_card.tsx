@@ -53,7 +53,7 @@ const TaskCard = () => {
       ) : (
         tasks.map(function (task: Task, index) {
           return (
-            <div className="card w-80 glass" key={index}>
+            <div className="card w-80 glass low-elevation" key={index}>
               <div className="card-body">
                 <h2 className="card-title">
                   {task.id} {task.task_name}

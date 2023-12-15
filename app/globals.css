@@ -43,3 +43,26 @@ letter-spacing: 1rem ;
 .tasks h3{
   font-weight: bold;
 }
+
+.high-elevation{
+  z-index: 9999;
+}
+
+.medium-elevation{
+  z-index:200;
+}
+.low-elevation{
+  z-index: 0;
+}
+
+.tubs {
+  justify-items: stretch;
+
+}
+.rounded-border{
+  border-radius:0px -10px -10px 0;
+}
+.border-radii{
+  border: 1px solid black;
+  border-radius: 20px;
+}
