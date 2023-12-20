@@ -27,7 +27,7 @@ export const TaskListComponent = () => {
           <div className="border-none p-2">
             <div className="bg-red-200 rounded-lg p-5">
               <h1 className="text-center text-red-900 text-3xl font-bold">
-                {tasks.task_name[0].toUpperCase()}
+                {/* {tasks?.task_name[0].toUpperCase()} */}
               </h1>
             </div>
           </div>
@@ -40,7 +40,7 @@ export const TaskListComponent = () => {
                 <h3 className="text-gray-500">{tasks.date}</h3>
               </div>
             </div>
-            <p className="text-gray-300 text-start py-2">{tasks.task_detail}</p>
+            <p className="text-gray-300 text-start py-2 first-letter:uppercase">{tasks.task_detail}</p>
           </div>
         </div>
       </li>

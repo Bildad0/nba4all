@@ -30,6 +30,8 @@ export const TaskCardComponent = () => {
       date: task.date,
       published: true,
       user_id: task.user_id,
+      title: task.title,
+      audience_id:task.audience_id
     })
       .then((res) => console.log(res))
       .finally(() => setLoading(false));

@@ -1,132 +1,74 @@
 "use client";
-import React, { useState } from "react";
-import { createNewTask } from "../api/api";
-import Task from "../models/task.model";
-import { FcApprove } from "react-icons/fc";
+import React from "react";
+import { MdAddCircleOutline } from "react-icons/md";
+import UpcomingTasks from "./upcoming_tasks";
+import { Form } from "./new_task_form";
+import { IoClose } from "react-icons/io5";
+
+const upcomingTasksData = [
+  {
+    title: "Meeting with Team",
+    details: "Discuss project updates",
+    time: "10:00 AM",
+    dueTime: "11:30 AM",
+    audience: [
+      { id: "1", name: "Bildad Owuor", username: "Bildad", imageUrl: "link" },
+    ],
+  },
+  {
+    title: "Prepare Presentation",
+    details: "Prepare slides for the client meeting",
+    time: "2:00 PM",
+    dueTime: "3:30 PM",
+    audience: [
+      { id: "1", name: "Bildad Owuor", username: "Bildad", imageUrl: "link" },
+    ],
+  },
+];
 
 const CreateTaskForm = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
-  const [loading, setLoading] = useState(false);
-  const initialDate = Date.UTC(Date.now());
-
-  const onDateSelect = async (e: any) => {
-    //TODO:look for date selector function !
-  };
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    setLoading(true);
-    const user = JSON.parse(localStorage.getItem("user") || "");
-    if (user == null) {
-      return;
-    }
-    setTimeout(() => {
-      const task = {
-        task_name: title,
-        task_detail: description,
-        date: date || `${initialDate}`,
-        published: false,
-        user_id: user.id,
-      };
-      createNewTask(task);
-    }, 200);
-    setLoading(false);
-  };
-
-  const handlePublish = async (e: any) => {
-    e.preventDefault();
-    setLoading(true);
-    const user = JSON.parse(localStorage.getItem("user") || "");
-    if (user == null) {
-      return;
-    }
-    setTimeout(() => {
-      const task = {
-        task_name: title,
-        task_detail: description,
-        date: date || `${initialDate}`,
-        published: true,
-        user_id: user.id,
-      };
-      createNewTask(task);
-    }, 200);
-    setLoading(false);
-  };
-
   return (
-    <div className="rounded-lg bg-orange-400 px-6 py-2 shadow-2xl">
-      <p className="text-3xl text-white">
-        Create new Task{" "}
-        <span>
-          <FcApprove className="text-blue" />
-        </span>
-      </p>
-      <form onSubmit={handleSubmit} className="flex  flex-col gap-3">
-        <label htmlFor="title">
-          <p>Title</p>
-          <input
-            name="title"
-            type="text"
-            required
-            id="title"
-            className="pl-2 rounded-sm"
-            placeholder={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
-          ></input>
-        </label>
-        <label htmlFor="details">
-          <p>Description</p>
-          <textarea
-            required
-            name="details"
-            id="details"
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
-          ></textarea>
-        </label>
-        <label htmlFor="date">
-          <p>Due date</p>
-          <input
-            name="date"
-            type="date"
-            placeholder={initialDate.toString()}
-            id="date"
-            className="px-5"
-            onSelect={(e) => {
-              setDate(e.currentTarget.value);
-            }}
-          ></input>
-        </label>
-        <div>
-          {loading == true ? (
-            <button type="submit" className="disabled">
-              {<span className="loading loading-spinner loading-md"></span>}
-            </button>
-          ) : (
-            <div className="flex flex-row gap-3">
-              <button
-                type="submit"
-                className="btn btn-outline hover:bg-white hover:text-black"
-              >
-                Save
-              </button>
-              <button
-                onClick={handlePublish}
-                className="btn btn-outline hover:bg-white hover:text-black"
-              >
-                Publish
-              </button>
-            </div>
-          )}
+    <div className=" w-[50vh] bg-white flex gap-20 flex-col">
+      <div
+        className="rounded-lg bg-gray-400 p-2 shadow-2xl  flex flex-col"
+        onClick={() => document.getElementById("my_modal_5")?.showModal()}
+      >
+        <div className="flex flex-row justify-center text-center gap-3 px-10 py-5">
+          <div className="w-fit h-fit bg-gray-800 rounded-full flex">
+            <MdAddCircleOutline className="text-6xl text-white" />
+          </div>
+          <h3 className="text-start text-gray-900 text-3xl py-3 ">
+            New Schedule
+          </h3>
         </div>
-      </form>
+        <dialog
+        id="my_modal_5"
+        className="modal modal-bottom sm:modal-middle text-start"
+      >
+        <div className="modal-box bg-slate-700">
+        <form method="dialog">
+          <button className="btn justify-end">
+            <IoClose className="text-white text-2xl" />
+          </button>
+        </form>
+        <Form />
+        </div>
+      </dialog>
+      </div>
+      <div className="rounded-md bg-white p-3">
+        <div className="card bg-white">
+          <h1 className="text-green-800 card-title py-2 m-5  underline px-auto justify-center text-2xl">
+            Upcoming Meetings
+          </h1>
+          <div className="bg-gray-300 rounded-md p-2">
+            <UpcomingTasks tasks={upcomingTasksData} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
+
+
 
 export default CreateTaskForm;

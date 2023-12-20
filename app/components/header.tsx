@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { ProfileIcon } from "./profile_drawer";
+import { NavBar } from "./side_bar";
 
 export const Greetings = () => {
   const today = new Date();
@@ -19,11 +20,15 @@ const Header = () => {
 
   useEffect(() => {
     const currentUser = JSON.parse(localStorage.getItem("user") || "");
+    if (currentUser === null) {
+      //return a notification error message then navigate to login page
+      console.log("User not found");
+    }
     setUser(currentUser);
   }, []);
 
   return (
-    <div className="navbar bg-base-200 shadow-2xl z-50 high-elevation min-w-[100%] sticky top-0 min-h-[20%]">
+    <div className="navbar bg-base-100 z-50 high-elevation min-w-[100%] sticky top-0   min-h-[20%]">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -47,22 +52,19 @@ const Header = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
-            <li>
-              <a href="/">Home</a>
-            </li>
-            <li>
-              <a href="/tasks/new">New Task</a>
-            </li>
-            <li>
-              <a>Unpublised Tasks</a>
-            </li>
-            <li>
-              <a>Completed Tasks</a>
-            </li>
+            {NavBar.map((link, index) => {
+              return (
+                <li key={index}>
+                  <a href={link.link}>{link.title}</a>
+                </li>
+              );
+            })}
           </ul>
         </div>
         {user == null ? (
-          <a className="btn btn-ghost text-xl">Task Manager</a>
+          <a className="btn btn-ghost text-xl flex-wrap whitespace-break-spaces">
+            Task Manager
+          </a>
         ) : (
           <a className="btn btn-ghost text-xl">
             <Greetings />, {user?.fname} {user?.lname}
@@ -70,7 +72,7 @@ const Header = () => {
         )}
       </div>
       <div className="navbar-end">
-        <ProfileIcon />
+        <ProfileIcon user={user} />
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ export const LoadingIcon = () => {
   return (
     <div className="px-auto  flex justify-center">
       <div className="btn bg-transparent border-none">
-        <span className="loading loading-spinner text-3xl"></span>
+        <span className="loading loading-spinner text-6xl"></span>
       </div>
     </div>
   );

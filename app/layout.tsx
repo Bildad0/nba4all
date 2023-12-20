@@ -28,39 +28,36 @@ export default function RootLayout({
     setTimeout(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
-          setUserToken(user.getIdTokenResult);
-          getUserByEmail(user.email || "ireen@gmail.com")
-            .then((response) => {
-              console.log("user: ", response.data[0]);
-              window.localStorage.setItem(
-                "user",
-                JSON.stringify(response.data[0])
-              );
-            })
-            .finally(async () => {
-              const currentUser = JSON.parse(
-                window.localStorage.getItem("user") || ""
-              );
-              const profile = await userProfile(currentUser.id);
-              window.localStorage.setItem(
-                "userProfile",
-                JSON.stringify(profile.data)
-              );
-            });
+          if (user.getIdTokenResult() != undefined) {
+            setUserToken(user.getIdToken());
+            getUserByEmail(user.email || "ireen@gmail.com")
+              .then(async (response) => {
+                if (response.data == null) {
+                  return router.push("/updateProfile");
+                }
+                const currentUser = response.data[0];
+                if (currentUser != null) {
+                  await userProfile(currentUser.user_id).then((response) => {
+                    if (response.data == null) return router.push("/tasks/new");
+                  });
+                }
+              });
+          }
+          router.push("/auth/login");
         } else {
           router.push("/auth/signup");
         }
-        setLoading(false);
       });
+      setLoading(false);
       return () => unsubscribe();
-    }, 5000);
+    }, 100);
   }, [router]);
 
   return (
     <html lang="en" data-theme="night">
       <head>
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>NBA for All</title>
+        <title>Scheduler</title>
         <meta
           name="description"
           content="NBA all stars statistics and game records."

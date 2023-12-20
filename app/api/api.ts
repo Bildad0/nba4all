@@ -16,11 +16,18 @@ const getOptions = {
 export const createUser = async (user: User) => {
   console.log("user payload:", user);
   try {
-    await fetch(`${url}/api/user/new`, {
+    const result = await fetch(`${url}/api/user/new`, {
       method: "POST",
       headers: headers,
       body: JSON.stringify({ user }),
     });
+    const serverUser = result.json();
+    if (result.status === 200) {
+      if (window.localStorage)
+        window.localStorage.setItem("user", JSON.stringify(serverUser || ""));
+      result.json();
+      return;
+    }
   } catch (e) {
     console.log(e);
     return e;
@@ -45,7 +52,18 @@ export const getUserByEmail = async (email: string) => {
       `${url}/api/user/email/?` + new URLSearchParams({ email }),
       getOptions
     );
-    if (result.status === 200) return result.json();
+    const userResponse = result.json();
+    if (result.status === 200) {
+      userResponse.then((user) => {
+        console.log("from get user API: ", user.data);
+        if (window.localStorage)
+          window.localStorage.setItem(
+            "user",
+            JSON.stringify(user.data[0] || "")
+          );
+      });
+      return userResponse;
+    }
   } catch (e) {
     console.log(e);
     return e;
@@ -84,7 +102,18 @@ export const userProfile = async (id: any) => {
       `${url}/api/user/?` + new URLSearchParams({ id }),
       getOptions
     );
-    if (data.status === 200) return data.json();
+    const profileResponse = data.json();
+    if (data.status === 200) {
+      profileResponse.then((profile) => {
+        console.log("User profile: ", profile.data);
+        if (window.localStorage)
+          window.localStorage.setItem(
+            "userProfile",
+            JSON.stringify(profile.data || "")
+          );
+      });
+      return profileResponse;
+    }
   } catch (e) {
     console.log(e);
     return null;

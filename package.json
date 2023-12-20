@@ -1,26 +1,46 @@
 {
-  "name": "nba4all",
-  "version": "0.1.0",
-  "private": true,
+  "name": "scheduler",
+  "version": "1.0.0",
+  "description": "appointment and task scheduling app",
+  "main": "next.config.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bildad0/nba4all.git"
+  },
+  "keywords": [
+    "scheduler",
+    "task",
+    "productivity"
+  ],
+  "author": "Bildad Owuor",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Bildad0/nba4all/issues"
+  },
+  "homepage": "https://github.com/Bildad0/nba4all#readme",
   "dependencies": {
     "@tailwindcss/typography": "github:tailwindcss/typography",
+    "chart.js": "^4.4.1",
+    "date-fns": "^2.30.0",
     "firebase": "^10.5.2",
     "firebase-admin": "^11.11.0",
-    "next": "14.0.1",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-icons": "^4.11.0",
+    "next": "^14.0.4",
+    "react": "^18.2.0",
+    "react-calendar": "^4.7.0",
+    "react-datepicker": "^4.24.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.12.0",
     "tailwindcss-typography": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^18",
+    "@types/react": "^18.2.45",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
     "daisyui": "^3.9.4",

@@ -1,112 +1,71 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React from "react";
-import signin from "@/app/api/firebase/signin";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
 import { GrGithub } from "react-icons/gr";
 import { RiTwitterXFill } from "react-icons/ri";
-import Loader from "@/app/components/loading";
+import LoginForm from "@/app/components/login_form";
 
 function Page() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    setLoading(true);
-    const { result, error } = await signin(email, password);
-
-    if (error) {
-      //add notification popup
-      return console.log("Firebase Error:", error);
-    }
-    //store user token for session
-    console.log("Firebase result: ", result);
-
-    setLoading(false);
-    //return to home page
-    return router.push("/");
-  };
 
   return (
-    <div className="container bg-black">
-      <div className="px-12 py-6 flex justify-center">
-        <div className="card card-side bg-base-100 shadow-xl w-fit h-fit">         
-          <div className="card-body h-fit w-10/12 justify-center py-4">
-            <h2 className="card-title">Sign In</h2>
-            <form onSubmit={handleSubmit} className="flex justify-around flex-col gap-3">
-              <label htmlFor="email">
-                <p>Email</p>
-                <input
-                  name="email"
-                  required
-                  type="email"
-                  id="email"
-                  placeholder="example@mail.com"
-                  className="input input-bordered w-full max-wxs"
-                  onChange={(e) => setEmail(e.target.value)}
-                ></input>
-              </label>
-              <label htmlFor="password">
-                <p>Password</p>
-                <input
-                  name="password"
-                  required
-                  type="password"
-                  id="password"
-                  className="input input-bordered w-full max-w-xs"
-                  onChange={(e) => setPassword(e.target.value)}
-                ></input>
-              </label>
-              <div className="card-actions justify-center">
-                {loading ? (
-                  <span className="loading loading-spinner loading-md"></span>
-                ) : (
-                  <button type="submit" className="btn btn-outline hover:bg-white hover:text-black">
-                    Login
-                  </button>
-                )}
-              </div>
-            </form>
+    <div className="container bg-black min-w-full min-h-[100vh]">
+      <div className="p-20 flex flex-row justify-between gap-3">
+        <div className="card text-gray-500 text-start  w-[35%]">
+          <h1 className="card-title text-start font-sans text-6xl font-bold p-5">
+            Welcome Back !
+          </h1>
+          <div className="card-body py-4 justify-start gap-4">
+            <img src="/images/side_view_1.jpg" alt="logo" loading="lazy" className="rounded-md" />
+            <p className="text-gray-300 text-2xl font-bold">
+              Login to your account to continue with your schedules.
+            </p>
             <div>
-            <h3 className="flex justify-center">
-            Don`t have account{" "}
-            <span>
-              <button
-                onClick={() => router.push("/auth/login")}
-                className="btn btn-active btn-link"
-              >
-                create one
-              </button>
-            </span>
-          </h3>
-          <hr className="bg-blue" />
-          <h2 className="flex justify-center text-center text-success font-extrabold text-lg">
-            OR
-          </h2>
-          <hr className="bg-blue" />
-          {/* TODO!:add google Icon, twitter icon or github icon then add user signup with these social media accounts */}
-          <div className="flex flex-column sm:flex-column md:flex-row lg:flex-row xl:flex-row gap-3 justify-around px-4">
-            <span className="btn btn-link">
-              <FcGoogle className="text-2xl" />
-            </span>
+              <p className="uppercase text-center text-xl font-bold font-mono text-gray-100">
+                Or 
+              </p>
+              {/* TODO!:add google Icon, twitter icon or github icon then add user signup with these social media accounts */}
+              <div className="flex flex-column sm:flex-column md:flex-row lg:flex-row xl:flex-row gap-3 justify-around p-4">
+                <span className="btn btn-link p-2">
+                  <FcGoogle className="text-4xl" />
+                </span>
 
-            <span className="btn btn-link">
-              <GrGithub className="text-2xl text-white" />
-            </span>
+                <span className="btn btn-link p-2">
+                  <GrGithub className="text-4xl text-white" />
+                </span>
 
-            <span className="btn btn-link">
-              <RiTwitterXFill className="text-2xl text-blue-400" />
-            </span>
-          </div>
+                <span className="btn btn-link p-2">
+                  <RiTwitterXFill className="text-4xl text-blue-400" />
+                </span>
+              </div>
             </div>
           </div>
         </div>
+        <div className="card bg-gray-900 shadow-xl w-fit h-fit rounded-md py-auto">
+          <h2 className="card-title p-3 text-3xl font-bold first-letter:font-extralight text-center">
+            Sign In
+          </h2>
+          <div className="card-body bg-base-200 justify-center py-4 rounded-md">
+            <div className="p-8">
+              <LoginForm />
+            </div>
+            <div className="py-3">
+              <h3 className="flex justify-center">
+                Don`t have account ?
+                <span
+                  className="btn-active btn-link px-2 "
+                  onClick={() => router.push("/auth/signup")}
+                >
+                  create one
+                </span>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div></div>
       </div>
     </div>
   );

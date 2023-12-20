@@ -1,22 +1,25 @@
 "use client";
 
 import React from "react";
-import CreateTaskForm from "@/app/components/create_new_task";
 import Header from "@/app/components/header";
 import Footer from "@/app/components/footer";
-import TaskCard from "@/app/components/fixture_card";
+import { Form } from "@/app/components/new_task_form";
+import { SmallHeader } from "@/app/components/small_header";
 
 export default function CreateNewTask() {
   return (
-    <div className="min-h-screen min-w-full">
+    <div data-theme="dark" className="min-h-screen min-w-full">
       <Header />
-      <main className="flex  flex-col justify-center px-10 py-5  gap-8">
-        <CreateTaskForm />
-        <div className="mt-5  gap-5 py-5">
-          <h1 className="py-5 font-bold text-xl">Tasks due</h1>
-          <TaskCard />
+      <SmallHeader />
+      <div className="w-[100%] bg-white">
+        <div className="tab-content min-h-content w-[100%]">
+          <div className="flex flex-row  justify-around py-8 gap-3">
+            <Form />
+            <div className="bg-base-300 text-white min-w-[40%]"></div>
+            <div className="bg-base-300 text-white min-w-[35%]"></div>
+          </div>
         </div>
-      </main>
+      </div>
       <Footer />
     </div>
   );

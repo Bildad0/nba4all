@@ -1,34 +1,36 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import User from "../models/user.model";
+import { FcAbout } from "react-icons/fc";
 
-export const User = async () => {
-  const currentUser = await JSON.parse(
-    window.localStorage.getItem("user") || ""
-  );
-  return currentUser;
-};
+interface ProfileProps {
+  user: User;
+}
 
-export const ProfileIcon = () => {
-  const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    User.call(this)
-      .then((response) => setUser(response))
-      .finally(() => setLoading(false));
-  }, []);
-
+export const ProfileIcon: React.FC<ProfileProps> = ({ user }) => {
   return (
-    <div className="drawer drawer-end max-w-[10%]">
+    <div className="drawer drawer-end max-w-[5%]">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
-        <label
-          htmlFor="my-drawer-4"
-          className="flex flex-row gap-3 drawer-button"
-        >
-          {" "}
-          <Avator /> <h1 className="text-white text-xl text-bold">{user?.username}</h1>
+        <label htmlFor="my-drawer-4" className=" drawer-button">
+          <h1 className="text-xl text-bold">
+            {user.imageUrl == null ? (
+              <div className="flex">
+                <div className="avatar placeholder">
+                  <div className="bg-neutral text-neutral-content rounded-full p-1 min-h-content">
+                    <span className="text-xs">{user.fname}</span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="avatar">
+                <div className="rounded-full">
+                  <img src={user.imageUrl} alt="icon" loading="lazy" />
+                </div>
+              </div>
+            )}
+          </h1>
         </label>
       </div>
       <div className="drawer-side high-elevation">
@@ -37,42 +39,43 @@ export const ProfileIcon = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu p-4 min-w-[20%] min-h-full bg-base-200 text-base-content">
-          {/* Sidebar content here */}
-          <li>
-            <a>Sidebar Item 1</a>
-          </li>
-          <li>
-            <a>Sidebar Item 2</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
-};
 
-export const Avator = () => {
-  const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    User.call(this)
-      .then((response) => setUser(response))
-      .finally(() => setLoading(false));
-  }, []);
-  return user.profileUrl == null ? (
-    <div className="flex flex-row justify-between">
-      <div className="avatar placeholder">
-        <button className="bg-neutral text-neutral-content rounded-full">
-          <span className="text-xs">{user.fname}</span>
-        </button>
-      </div>
-    </div>
-  ) : (
-    <div className="avatar">
-      <div className="rounded-full">
-        <Image src={user.profileUrl} alt="icon" />
+        {/* Sidebar content here */}
+        <div className="menu p-4 min-w-[25%] min-h-full bg-base-200 text-base-content">
+          <div className="profile_details px-4 py-5 mx-3 rounded-md  bg-slate-300 min-h-16 flex flex-col justify-center">
+            <div className="text-center">
+              <div className="avatar">
+                <div className="w-8 rounded-full bg-white">
+                  <Image src="" alt="icon" width={500} height={200} />
+                </div>
+              </div>
+            </div>
+            <div className="shadow-2xl border rounded-md">
+              <div className="flex flex-col gap-3 justify-center text-center">
+                <label htmlFor="fname">
+                  <p className="px-5 text-gray-900 text-xl">
+                    {user.fname} {user.sname}
+                  </p>
+                  <input
+                    name="fname"
+                    readOnly={true}
+                    type="text"
+                    id="fname"
+                    value={`@${user.username}.`}
+                    className="input input-bordered w-full max-w-xs bg-transparent text-start text-gray-700"
+                  ></input>
+                </label>
+                <div className="flex flex-row gap-3">
+                  <FcAbout />
+                  <h2 className="text-gray-700">Edit</h2>
+                </div>
+              </div>
+              <label htmlFor="fname">
+                <p className="px-5 text-gray-500">{user.email}</p>
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
